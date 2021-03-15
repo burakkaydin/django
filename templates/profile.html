@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h3>Hoşgeldin, {{request.user.username}}</h3>
+<a href="#" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Hakkında</a>
+<a href="#" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Profili düzenle</a>
+
+<br><br><br>
+
+{% if articles %}
+  <div class="alert alert-success">Kullanıcı adınıza ait makaleler aşağıda listelenmiştir..</div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">İd</th>
+            <th scope="col">Başlık</th>
+            <th scope="col">Yazar</th>
+            <th scope="col">Tarih</th>
+            <th scope="col">Güncelle</th>
+            <th scope="col">Sil</th>
+          </tr>
+        </thead>
+        {% for article in articles %}
+        <tbody>
+          <tr>
+            <th scope="row">{{article.id}}</th>
+            <td><a href="{% url 'article:detail' article.id %}">{{article.title}}</a></td>
+            <td>{{article.author}}</td>
+            <td>{{article.created_date}}</td>
+            <td><a class="btn btn-danger"href="{% url 'article:update' article.id %}">Güncelle</a></td>
+            <td><a class="btn btn-danger"href="{% url 'article:delete' article.id %}">Sil</a></td>
+          </tr> 
+          {% endfor %}
+        </tbody>
+      </table>
+  {% else %}
+    <div class="alert alert-danger">Size ait makale bulunmuyor.</div>
+  {% endif %}
+
+<div class="card" style="width: 18rem;">
+    <div class="card-body">
+      <h5 class="card-title">{{request.article.title}}</h5>
+      <p class="card-text">{{request.user.content}}</p>
+      <a href="#" class="btn btn-primary">Go somewhere</a>
+    </div>
+  </div>
+{% endblock body %}
